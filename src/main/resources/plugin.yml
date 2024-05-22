@@ -1,0 +1,4 @@
+name: ShooterGame
+version: '${version}'
+main: net.ledestudio.shootergame.ShooterGame
+api-version: '1.20'
