@@ -59,6 +59,7 @@ public class EasyArrowTarget implements ProjectileTarget {
     public void removeTarget(@NotNull Block block) {
         if (isTargetBlock(block)) {
             block.setType(Material.AIR);
+            targetBlocks.remove(block);
         }
     }
 
