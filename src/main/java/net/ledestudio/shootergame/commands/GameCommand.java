@@ -1,11 +1,14 @@
 package net.ledestudio.shootergame.commands;
 
+import com.google.common.collect.Lists;
 import net.ledestudio.shootergame.game.GameController;
 import net.ledestudio.shootergame.game.GameManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class GameCommand extends BukkitCommand {
 
@@ -31,6 +34,7 @@ public class GameCommand extends BukkitCommand {
                     return false;
                 }
                 controller.startGame();
+                player.sendMessage("게임을 시작합니다.");
             }
             case "stop" -> {
                 GameController controller = GameManager.getOrCreateGameController(player);
@@ -39,10 +43,18 @@ public class GameCommand extends BukkitCommand {
                     return false;
                 }
                 controller.stopGame();
+                player.sendMessage("게임을 종료합니다.");
             }
         }
 
         return false;
     }
 
+    @Override
+    public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) throws IllegalArgumentException {
+        if (args.length == 1) {
+            return Lists.newArrayList("start", "stop");
+        }
+        return Lists.newArrayList();
+    }
 }

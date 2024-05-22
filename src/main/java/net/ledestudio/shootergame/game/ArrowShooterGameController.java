@@ -1,6 +1,6 @@
 package net.ledestudio.shootergame.game;
 
-import net.ledestudio.shootergame.projectile.arrow.ArrowFactory;
+import net.ledestudio.shootergame.projectile.factory.ArrowFactory;
 import net.ledestudio.shootergame.shooter.Shooter;
 import net.ledestudio.shootergame.target.ProjectileTarget;
 import org.jetbrains.annotations.NotNull;

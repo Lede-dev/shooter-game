@@ -19,7 +19,7 @@ public class ArrowTagItemCreator implements TagItemCreator {
     public @NotNull ItemStack createItem(@NotNull String value) {
         ItemStack item = new ItemStack(Material.ARROW, 1);
         ItemMeta meta = item.getItemMeta();
-        meta.displayName(Component.text("일반 화살"));
+        meta.displayName(Component.text("화살 - " + value));
         meta.getPersistentDataContainer().set(KEY, PersistentDataType.STRING, value);
         item.setItemMeta(meta);
         return item;

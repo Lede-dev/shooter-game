@@ -1,8 +1,9 @@
-package net.ledestudio.shootergame.projectile;
+package net.ledestudio.shootergame.projectile.handler;
 
 import net.ledestudio.shootergame.ShooterGame;
 import net.ledestudio.shootergame.game.GameController;
 import net.ledestudio.shootergame.game.GameManager;
+import net.ledestudio.shootergame.projectile.AbstractProjectile;
 import net.ledestudio.shootergame.shooter.Shooter;
 import net.ledestudio.shootergame.target.ProjectileTarget;
 import org.bukkit.block.Block;
@@ -21,7 +22,7 @@ import org.bukkit.metadata.MetadataValue;
 import java.util.List;
 import java.util.Optional;
 
-public class ProjectileListener implements Listener {
+public class ProjectileHandler implements Listener {
 
     @EventHandler
     public void onProjectileHit(ProjectileHitEvent event) {
@@ -79,9 +80,19 @@ public class ProjectileListener implements Listener {
             }
         }
 
+        // 화살 엔티티 제거
+        event.getEntity().remove();
+
         // 모든 타겟을 제거했거나, 플레이어에게 투사체가 남아있지 않다면 게임 종료
-        if (!target.hasRemainTarget() || !shooter.hasRemainProjectile()) {
+        if (!target.hasRemainTarget()) {
             controller.stopGame();
+            player.sendMessage("모든 목표를 제거했습니다. 게임을 종료합니다.");
+            return;
+        }
+
+        if (!shooter.hasRemainProjectile()) {
+            controller.stopGame();
+            player.sendMessage("투사체가 부족합니다. 게임을 종료합니다.");
             return;
         }
     }
@@ -112,7 +123,7 @@ public class ProjectileListener implements Listener {
         }
 
         // 화살이 등록된 투사체인지 확인
-        if (!controller.getProjectileFactory().isProjectile(event.getConsumable())) {
+        if (!controller.getProjectileFactory().isProjectile(arrow)) {
             return;
         }
 
@@ -124,7 +135,7 @@ public class ProjectileListener implements Listener {
 
         // 화살 엔티티에 가져온 투사체 테이터를 주입
         final Entity entity = event.getProjectile();
-        entity.setMetadata("shooter-game", new FixedMetadataValue(ShooterGame.getInstance(), absArrow));
+        entity.setMetadata("shooter-game", new FixedMetadataValue(ShooterGame.getInstance(), absArrow.get()));
     }
 
 }

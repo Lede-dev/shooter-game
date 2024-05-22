@@ -1,7 +1,8 @@
 package net.ledestudio.shootergame.game;
 
 import com.google.common.collect.Maps;
-import net.ledestudio.shootergame.shooter.ArrowShooter;
+import com.google.common.collect.Sets;
+import net.ledestudio.shootergame.shooter.EasyArrowShooter;
 import net.ledestudio.shootergame.shooter.Shooter;
 import net.ledestudio.shootergame.target.ProjectileTarget;
 import net.ledestudio.shootergame.target.EasyArrowTarget;
@@ -9,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 public class GameManager {
@@ -25,13 +27,17 @@ public class GameManager {
     }
 
     public static @NotNull GameController createGameController(@NotNull Player player) {
-        final Shooter shooter = new ArrowShooter(player);
+        final Shooter shooter = new EasyArrowShooter(player);
         final ProjectileTarget target = new EasyArrowTarget();
         return new ArrowShooterGameController(shooter, target);
     }
 
     public static boolean hasGameController(@NotNull Player player) {
         return controllers.containsKey(player.getUniqueId());
+    }
+
+    public static @NotNull Set<GameController> getGameControllers() {
+        return Sets.newHashSet(controllers.values());
     }
 
 }
